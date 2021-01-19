@@ -76,6 +76,7 @@ describe("OrderForm", () => {
         userEvent.type(name, "Mike");
         userEvent.click(ingredient);
         userEvent.click(button);
+        
         expect(mockReservation).toHaveBeenCalled();;
     })
 })
