@@ -15,6 +15,7 @@ class OrderForm extends Component {
   }
 
   handleIngredientChange = (event) => {
+    event.preventDefault();
     const { name } = event.target;
     this.setState(prevState => ({
       ingredients: [...prevState.ingredients, name]
@@ -23,6 +24,9 @@ class OrderForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    if (!this.state.ingredients.length || !this.state.name) {
+      alert ("Please complete the form")
+    }
     this.clearInputs();
   }
 
