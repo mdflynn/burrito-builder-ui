@@ -19,17 +19,10 @@ class App extends Component {
   }
 
   submitNewOrder = (order) => {
-    postOrder(order).then((response) => {
-      if(response.status >= 400) {
-        alert("Unsuccessful order")
-      } else {
-        response.json();
-        this.setState((prevState) => ({
-          orders: [...prevState.orders, order],
-        }));
-      }
-      
-    });
+    postOrder(order)
+    this.setState((prevState) => ({
+      orders: [...prevState.orders, order],
+    }));
   };
 
   render() {
