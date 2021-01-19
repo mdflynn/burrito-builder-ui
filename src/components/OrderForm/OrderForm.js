@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 
 class OrderForm extends Component {
   constructor(props) {
-    super();
-    this.props = props;
+    super(props);
+    // this.props = props;
     this.state = {
       name: '',
       ingredients: []
     };
   }
 
+  handleNameChange = (event) => {
+    this.setState({ name: event.target.value })
+  }
+
+  handleIngredientChange = (event) => {
+    const { name } = event.target;
+    this.setState(prevState => ({
+      ingredients: [...prevState.ingredients, name]
+    }))
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -24,27 +34,27 @@ class OrderForm extends Component {
     const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
     const ingredientButtons = possibleIngredients.map(ingredient => {
       return (
-        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
+        <button key={ingredient} name={ingredient} onClick={this.handleIngredientChange}>
           {ingredient}
         </button>
       )
     });
 
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <input
           type='text'
           placeholder='Name'
           name='name'
           value={this.state.name}
-          onChange={e => this.handleNameChange(e)}
+          onChange={this.handleNameChange}
         />
 
         { ingredientButtons }
 
         <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
 
-        <button onClick={e => this.handleSubmit(e)}>
+        <button>
           Submit Order
         </button>
       </form>
