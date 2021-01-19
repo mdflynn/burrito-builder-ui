@@ -1,15 +1,24 @@
 export const getOrders = () => {
-  return fetch('http://localhost:3001/api/v1/orders')
-      .then(response => response.json())
-}
+  return fetch("http://localhost:3001/api/v1/orders").then((response) =>
+    response.json()
+  );
+};
 
 export const postOrder = (order) => {
- return  fetch('http://localhost:3001/api/v1/orders', {
-    method: 'POST',
+  return fetch("http://localhost:3001/api/v1/orders", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(order)
+    body: JSON.stringify(order),
+  }).then((response) => response.json());
+};
+
+export const deleteOrder = (orderId) => {
+  return fetch(`http://localhost:3001/api/v1/orders/${orderId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
-  .then(response => response.json())
-}
+};
