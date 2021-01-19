@@ -10,8 +10,9 @@ jest.mock("../../apiCalls")
 
 
 describe("App", () => {
+    let orderDetails
     beforeEach(() => {
-        const orderDetails = {
+        orderDetails = {
             orders: [
                 {
                     name: "mike",
@@ -50,9 +51,24 @@ describe("App", () => {
         expect(order1).toBeInTheDocument();
         expect(order2).toBeInTheDocument();
     })
-    it("should add a new order", () => {
+
+    it("should add a new order", async () => {
         render(
             <App />
         )
+        
+        postOrder.mockResolvedValueOnce(orderDetails)
+
+        const button = await waitFor(() => screen.getByRole('button', { name: /submit order/i }))
+        const name = screen.getByPlaceholderText("Name");
+        const ingredient = screen.getByRole('button', { name: /beans/i });
+
+        userEvent.type(name, "Mike");
+        userEvent.click(ingredient);
+        userEvent.click(button);
+
+        const updatedOrder = await waitFor(() => screen.getByText("Mike"))
+        expect(updatedOrder).toBeInTheDocument();
     })
+
 })
