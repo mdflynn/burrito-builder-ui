@@ -34,12 +34,42 @@ describe("OrderForm", () => {
         expect(input.value).toBe("Mike")
     })
 
-    it("should be able to make a reservation", async () => {
+    it("should be able to select ingredients", () => {
+        render(
+            <OrderForm data={jest.fn()} />
+        )
+
+        const button1 = screen.getByText("beans");
+        const button2 = screen.getByText("steak");
+        
+        userEvent.click(button1);
+        userEvent.click(button2);
+
+        expect(screen.getByText("Order: beans, steak")).toBeInTheDocument()
+    })
+
+    it("should not be able to make a reservation without name and ingredients chosen", () => {
+        render(
+            <OrderForm data={jest.fn()} />
+        )
+        const button = screen.getByRole('button', { name: /submit order/i })
+        const name = screen.getByPlaceholderText("Name");
+
+        jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+        userEvent.type(name, "Mike");
+        userEvent.click(button);
+
+        expect(window.alert).toHaveBeenCalled();
+
+    })
+
+    it("should be able to make a reservation", () => {
         const mockReservation = jest.fn()
         render(
             <OrderForm data={mockReservation}/>
         )
-        const button = await waitFor(() => screen.getByRole('button', { name: /submit order/i }))
+        const button = screen.getByRole('button', { name: /submit order/i })
         const name = screen.getByPlaceholderText("Name");
         const ingredient = screen.getByRole('button', { name: /beans/i });
 
