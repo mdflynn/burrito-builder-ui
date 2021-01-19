@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class OrderForm extends Component {
   constructor(props) {
     super(props);
-    // this.props = props;
     this.state = {
       name: '',
       ingredients: []
@@ -26,6 +25,7 @@ class OrderForm extends Component {
     e.preventDefault();
     if (!this.state.ingredients.length || !this.state.name) {
       alert ("Please complete the form")
+      return
     }
     this.props.data(this.state)
     this.clearInputs();
