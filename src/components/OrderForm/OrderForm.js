@@ -27,6 +27,7 @@ class OrderForm extends Component {
     if (!this.state.ingredients.length || !this.state.name) {
       alert ("Please complete the form")
     }
+    this.props.data(this.state)
     this.clearInputs();
   }
 
